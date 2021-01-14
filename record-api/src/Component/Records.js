@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { Table, Button, ListGroup, Collapse } from "react-bootstrap";
+import ViewDetialsModal from "./ViewDetailsModal";
 
 const Records = ({ records, loading }) => {
   const [open, setOpen] = useState(false);
+  const [currentRow, setCurrentRow] = useState({});
+  const [show, setShow] = useState(false);
+
   if (loading) {
-    return <h2>Loading...</h2>
+    return <h2>Loading...</h2>;
   }
+
+  const toggleModal = () => setShow((show) => !show);
+
   return (
     <div className="mb-4">
-    {records.map(record => (
-      <div key={record.id}>
-        <Table striped bordered hover size="md" className="mb-4">
+      <div>
+        <Table responsive bordered size="md" className="mb-4">
           <thead>
             <tr>
               <th>FirstName</th>
@@ -21,24 +27,39 @@ const Records = ({ records, loading }) => {
               <th>More Record</th>
             </tr>
           </thead>
+
           <tbody>
-            <tr>
-              <td>{record.FirstName}</td>
-              <td>{record.LastName}</td>
-              <td>{record.Gender}</td>
-              <td>{record.Latitude}</td>
-              <td>{record.Longitude}</td>
-              <td>
-                <Button
-                  onClick={() => setOpen((prevOpen) => !prevOpen)}
-                  variant="info"
-                >
-                  {open ? "Hide Records" : "View Records"}
-                </Button>
-              </td>
-            </tr>
-            <tr>
-              <Collapse in={open}>
+            {records.map((record, key) => (
+              <tr key={key}>
+                <td>{record.FirstName}</td>
+                <td>{record.LastName}</td>
+                <td>{record.Gender}</td>
+                <td>{record.Latitude}</td>
+                <td>{record.Longitude}</td>
+                <td>
+                  <Button
+                    onClick={() => {
+                      setCurrentRow(record);
+                      toggleModal();
+                    }}
+                    variant="info"
+                  >
+                    View Details
+                  </Button>
+                </td>
+              </tr>
+            ))}
+
+            {show ? (
+              <ViewDetialsModal
+                show={show}
+                toggleModal={toggleModal}
+                currentRow={currentRow}
+              />
+            ) : null}
+
+            {/* <tr>
+              <Collapse in={open && (currentRow.UserName === record.UserName) ? true : false}>
                 <div>
                   <h3 className="p-2">Other Records</h3>
                   <ListGroup>
@@ -84,12 +105,10 @@ const Records = ({ records, loading }) => {
                   </ListGroup>
                 </div>
               </Collapse>
-            </tr>
+            </tr> */}
           </tbody>
         </Table>
       </div>
-    ))}
-      
     </div>
   );
 };

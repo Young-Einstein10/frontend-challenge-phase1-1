@@ -2,71 +2,128 @@ import React, { useState, useEffect } from "react";
 import Records from "./Component/Records";
 import Pagination from "./Component/Pagination";
 import SearchForm from "./Component/SearchForm";
+import Filter from "./Component/Filter";
 import axios from "axios";
 import { Container } from "react-bootstrap";
 import "./App.css";
 
+const dataList = [
+  {
+    FirstName: "Destiney",
+    LastName: "Yundt",
+    Gender: "Male",
+    Latitude: -73.421814,
+    Longitude: 124.489044,
+    CreditCardNumber: "3538859970262382",
+    CreditCardType: "JCB",
+    Email: "MjEIPIV@AEdtofg.com",
+    DomainName: "kxNlDfR.biz",
+    PhoneNumber: "891-374-5102",
+    MacAddress: "9d:75:ac:4a:7e:05",
+    URL: "http://kQEJlbU.ru/",
+    UserName: "VWHprfL",
+    LastLogin: "1972-10-28 05:20:26",
+    PaymentMethod: "cc",
+  },
+  {
+    FirstName: "Aida",
+    LastName: "Dach",
+    Gender: "Female",
+    Latitude: 38.644394,
+    Longitude: -48.400986,
+    CreditCardNumber: "3558928627725474",
+    CreditCardType: "JCB",
+    Email: "MYUndKY@RRvpsKK.ru",
+    DomainName: "DScMleS.com",
+    PhoneNumber: "121-085-9467",
+    MacAddress: "ed:27:41:b1:6c:19",
+    URL: "https://VcKrHFA.org/",
+    UserName: "mUNxdvi",
+    LastLogin: "1986-07-11 00:57:35",
+    PaymentMethod: "cc",
+  },
+  {
+    FirstName: "Stephany",
+    LastName: "Stark",
+    Gender: "Female",
+    Latitude: 38.76857,
+    Longitude: 152.85199,
+    CreditCardNumber: "3558354856671504",
+    CreditCardType: "JCB",
+    Email: "RPGPuXn@dGDDLbC.biz",
+    DomainName: "cjOgkCO.ru",
+    PhoneNumber: "871-910-5624",
+    MacAddress: "cc:8b:6a:e0:cf:43",
+    URL: "http://XfCkhoJ.info/accYbFU.html",
+    UserName: "eoAoAyu",
+    LastLogin: "2008-04-12 21:22:08",
+    PaymentMethod: "cc",
+  },
+  {
+    FirstName: "Jeramie",
+    LastName: "Reilly",
+    Gender: "Female",
+    Latitude: 13.475105,
+    Longitude: 20.684845,
+    CreditCardNumber: "3578298818250475",
+    CreditCardType: "JCB",
+    Email: "BHCuPDa@IeDvWow.org",
+    DomainName: "ADibHet.net",
+    PhoneNumber: "615-910-3274",
+    MacAddress: "1f:a2:d7:65:84:08",
+    URL: "https://bfXERYm.info/SPWQZdA.php",
+    UserName: "wRFRHqY",
+    LastLogin: "2020-06-17 18:02:48",
+    PaymentMethod: "paypal",
+  },
+  {
+    FirstName: "Magdalen",
+    LastName: "Schultz",
+    Gender: "Male",
+    Latitude: -46.527866,
+    Longitude: 37.94388,
+    CreditCardNumber: "3558635831831331",
+    CreditCardType: "JCB",
+    Email: "PcjDbiD@GfQECEG.ru",
+    DomainName: "VWyjZAw.com",
+    PhoneNumber: "472-895-3101",
+    MacAddress: "96:c7:d8:fe:35:d3",
+    URL: "http://slHOErZ.com/vcpcKfj.php",
+    UserName: "xGXdMUZ",
+    LastLogin: "1978-11-08 14:23:25",
+    PaymentMethod: "check",
+  },
+  {
+    FirstName: "Allene",
+    LastName: "Flatley",
+    Gender: "Female",
+    Latitude: -55.692375,
+    Longitude: 45.388214,
+    CreditCardNumber: "3548484799689871",
+    CreditCardType: "JCB",
+    Email: "suIVQsx@UtQyWCj.info",
+    DomainName: "yTKyBoj.org",
+    PhoneNumber: "176-842-1059",
+    MacAddress: "90:3e:5a:0a:09:bd",
+    URL: "http://pFFtcQJ.org/fNgoCmb.php",
+    UserName: "QoDtbxY",
+    LastLogin: "1979-01-19 05:25:35",
+    PaymentMethod: "paypal",
+  },
+];
+
 function App() {
-  const [records, setRecord] = useState([
-    {
-      FirstName: "Toney",
-      LastName: "Stracke",
-      Gender: "Male",
-      Latitude: 13.551178,
-      Longitude: -22.88681,
-      CreditCardNumber: "5370814613154673",
-      CreditCardType: "MasterCard",
-      Email: "TkhdpLS@QHVkRMi.org",
-      DomainName: "ltxaTdR.org",
-      PhoneNumber: "359-142-8610",
-      MacAddress: "24:ae:ad:16:ed:5b",
-      URL: "http://AUAtjfq.biz/OaikkEq.html",
-      UserName: "HBKQjcL",
-      LastLogin: "1996-06-02 19:14:06",
-      PaymentMethod: "check",
-    },
-    {
-      FirstName: "Aisha",
-      LastName: "Haag",
-      Gender: "Prefer to skip",
-      Latitude: -60.97193,
-      Longitude: -62.261574,
-      CreditCardNumber: "5458393180258304",
-      CreditCardType: "MasterCard",
-      Email: "QoYDhrW@xbDcEuR.net",
-      DomainName: "sfmQSQB.ru",
-      PhoneNumber: "631-019-2485",
-      MacAddress: "bd:53:b7:f0:09:8f",
-      URL: "https://bwfoInO.ru/",
-      UserName: "vMFuMWt",
-      LastLogin: "1990-11-05 03:24:53",
-      PaymentMethod: "cc",
-    },
-    {
-      FirstName: "Bridie",
-      LastName: "Adams",
-      Gender: "Female",
-      Latitude: 8.670197,
-      Longitude: 1.917572,
-      CreditCardNumber: "5420507013917076",
-      CreditCardType: "MasterCard",
-      Email: "EqEXfDf@uUjcAqk.org",
-      DomainName: "gOOZjxG.info",
-      PhoneNumber: "321-591-0478",
-      MacAddress: "4d:ff:9d:07:8a:0e",
-      URL: "https://vOqigwR.net/uvkNCAU.php",
-      UserName: "tOYVpJq",
-      LastLogin: "2006-06-15 13:37:12",
-      PaymentMethod: "paypal",
-    },
-  ]);
-  
+  const [records, setRecord] = useState(dataList);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [recordsPerPage] = useState(20);
-  const [params, setParams] = useState({});
+  const [searchValue, setSearchValue] = useState("");
+  const [filterValue, setFilterValue] = useState({});
+  const [data, setData] = useState();
 
   const BASE_URL = "https://api.enye.tech/v1/challenge/records";
+
+  // const proxy = "https://cors-anywhere.herokuapp.com/"
 
   useEffect(() => {
     const getRecord = async () => {
@@ -84,22 +141,47 @@ function App() {
 
   const paginate = (pageNumber) => setPage(pageNumber);
 
-  function handleParamChange(e) {
-    const param = e.target.name;
-    const value = e.target.value;
-    setPage(1);
-    setParams((prevParams) => {
-      return {
-        ...prevParams,
-        [param]: value,
-      };
-    });
+  function handleSearchChange(e) {
+    setSearchValue(e.target.value);
+    filterData(e.target.value);
   }
+
+  function handleFilterChange(e) {
+    const filterString = e.target.value
+    const name = e.target.name
+
+    setFilterValue({
+      [name]: filterString
+    });
+
+  }
+
+  // filter records by search text
+  const filterData = (value) => {
+    const lowercasedValue = value.toLowerCase().trim();
+    if (lowercasedValue === "") setRecord(dataList);
+    else {
+      const filteredData = dataList.filter((record) => {
+        return Object.keys(record).some((key) =>
+          record[key].toString().toLowerCase().includes(lowercasedValue)
+        );
+      });
+      setRecord(filteredData);
+    }
+  };
 
   return (
     <Container className="my-4">
       <h1 className="mb-4">RECORD API</h1>
-      <SearchForm params={params} onParamChange={handleParamChange} />
+      <SearchForm
+        searchValue={searchValue}
+        handleSearchChange={handleSearchChange}
+      />
+
+      <Filter
+        filterValue={filterValue}
+        handleFilterChange={handleFilterChange}
+      />
       <Pagination
         recordsPerPage={recordsPerPage}
         totalRecords={records.length}

@@ -1,41 +1,19 @@
 import React from "react";
 import { Col, Form } from "react-bootstrap";
 
-const SearchForm = ({ params, onParamChange }) => {
+const SearchForm = ({ searchValue,handleSearchChange }) => {
   return (
     <Form className="mb-4">
       <Form.Row className="align-items-end">
         <Form.Group as={Col}>
-          <Form.Label>Gender</Form.Label>
+          <Form.Label>Search Form</Form.Label>
           <Form.Control
-            onChange={onParamChange}
-            value={params.Gender}
+            onChange={handleSearchChange}
+            value={searchValue}
             name="Gender"
             type="text"
           />
-        </Form.Group>
-
-        <Form.Group as={Col}>
-          <Form.Label>Credit Card Type</Form.Label>
-          <Form.Control
-            onChange={onParamChange}
-            value={params.CreditCardType}
-            name="CreditCardType"
-            type="text"
-          />
-        </Form.Group>
-
-        <Form.Group as={Col} xs="auto" className="ml-2">
-          <Form.Check
-            onChange={onParamChange}
-            value={params.PaymentMethod}
-            name="PaymentMethod"
-            id="PaymentMethod"
-            label="Payment Method"
-            type="checkbox"
-            className="mb-2"
-          />
-        </Form.Group>
+        </Form.Group>       
       </Form.Row>
     </Form>
   );
